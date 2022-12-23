@@ -7,7 +7,7 @@ import {
   OneToOne,
   JoinColumn,
   BaseEntity,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { Auth } from '../../../common/classes/auth';
 import * as bcrypt from 'bcryptjs';
@@ -45,7 +45,7 @@ export class User extends BaseEntity {
   @Column()
   profileId: number;
 
-  @ManyToOne((type) => Playlist, (playlist) => playlist.user)
+  @OneToMany((type) => Playlist, (playlist) => playlist.user)
   playlists: Playlist[];
 
   async validatePassword(candidatePassword: string): Promise<boolean> {
