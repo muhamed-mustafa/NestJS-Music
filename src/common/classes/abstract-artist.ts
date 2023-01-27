@@ -18,7 +18,7 @@ export abstract class AbstractArtist extends BaseEntity {
   @Column({ type: 'enum', enum: ArtistType, array: false })
   type: ArtistType;
 
-  @Column({ nullable: true })
+  @Column({ type: 'enum', enum: Gender, array: false })
   gender: Gender;
 
   @Column()

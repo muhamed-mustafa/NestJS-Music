@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { config } from '../config';
 import { AuthModule } from './modules/auth/auth.module';
 import { FavoriteModule } from './modules/favorite/favorite.module';
 import { MusicModule } from './modules/music/music.module';
-import { MusicianAlbumModule } from './modules/musician-album/musician-album.module';
+import { MusicianAlbumModule } from './modules/musician-album/MusicianAlbumModule';
 import { MusicianModule } from './modules/musician/musician.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { PlaylistModule } from './modules/playlist/playlist.module';
@@ -13,14 +12,32 @@ import { SingerAlbumModule } from './modules/singer-album/singer-album.module';
 import { SingerModule } from './modules/singer/singer.module';
 import { SongModule } from './modules/song/song.module';
 import { TrackModule } from './modules/track/track.module';
+import { config } from '../config';
+import { MulterModule } from '@nestjs/platform-express';
+import {
+  NodemailerDrivers,
+  NodemailerModule,
+  NodemailerOptions,
+} from '@crowdlinker/nestjs-mailer';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config.db as TypeOrmModuleOptions),
+
+    MulterModule.register({
+      dest: './files',
+    }),
+
+    NodemailerModule.forRoot(
+      config.nodeMailerOptions as NodemailerOptions<NodemailerDrivers.SMTP>,
+    ),
+
     AuthModule,
+    ProfileModule,
     FavoriteModule,
-    MusicModule,
     MusicianAlbumModule,
+    MusicModule,
     MusicianModule,
     NotificationModule,
     PlaylistModule,
@@ -29,8 +46,9 @@ import { TrackModule } from './modules/track/track.module';
     SingerModule,
     SongModule,
     TrackModule,
+    UserModule,
+    FavoriteModule,
   ],
   controllers: [],
-  providers: [],
 })
 export class AppModule {}

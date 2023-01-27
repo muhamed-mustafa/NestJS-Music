@@ -5,10 +5,11 @@ import {
   Unique,
   OneToOne,
   BaseEntity,
+  JoinColumn,
 } from 'typeorm';
 import { Gender } from 'src/common/enums/gender.enum';
-import { User } from 'src/modules/auth/entities/user.entity';
-import { Favorite } from 'src/modules/favorite/favorite.entity';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Favorite } from 'src/modules/favorite/entities/favorite.entity';
 
 @Entity('profiles')
 @Unique(['phone'])
@@ -40,10 +41,16 @@ export class Profile extends BaseEntity {
   @Column()
   phone: string;
 
-  @OneToOne((type) => User, (user) => user.profile)
+  @Column({
+    nullable: true,
+  })
+  image: string;
+
+  @OneToOne(() => User, (user) => user.profile)
   user: User;
 
-  @OneToOne((type) => Favorite, (favorite) => favorite.profile)
+  @OneToOne(() => Favorite, (favorite) => favorite.profile)
+  @JoinColumn()
   favorite: Favorite;
 
   @Column()
