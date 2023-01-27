@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { FavoriteModule } from './modules/favorite/favorite.module';
@@ -20,6 +20,7 @@ import {
   NodemailerOptions,
 } from '@crowdlinker/nestjs-mailer';
 import { UserModule } from './modules/user/user.module';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -48,6 +49,12 @@ import { UserModule } from './modules/user/user.module';
     TrackModule,
     UserModule,
     FavoriteModule,
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({ whitelist: true }),
+    },
   ],
   controllers: [],
 })
