@@ -14,7 +14,7 @@ import { ProfileService } from '../profile/profile.service';
 import { SignUpDto } from './dtos/signup.dto';
 import { CreateProfileDto } from '../profile/dtos/create-profile-dto';
 import { Repository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, forwardRef } from '@nestjs/common';
 import { JwtPayload } from 'src/common/interfaces/jwt-payload';
 import { LoginDto } from './dtos/login.dto';
 import { User } from 'src/modules/user/entities/user.entity';
@@ -22,6 +22,8 @@ import { ForgottenPassword } from './entities/forgotten-password.entity';
 import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { FavoriteService } from '../favorite/favorite.service';
 import { PlaylistService } from '../playlist/playlist.service';
+import { ChatService } from '../../shared/modules/chat/chat.service';
+import { Inject } from '@nestjs/common/decorators';
 
 @Injectable()
 export class AuthService {
@@ -36,6 +38,7 @@ export class AuthService {
     private profileService: ProfileService,
     private favoriteService: FavoriteService,
     private playlistService: PlaylistService,
+    @Inject(forwardRef(() => ChatService)) private chatService: ChatService,
   ) {}
 
   async signUp(
@@ -259,9 +262,11 @@ export class AuthService {
       user.playlists.map(
         async (playlist) => await this.playlistService.delete(playlist.id),
       ),
-      await this.userRepository.delete(user.id),
       await this.profileService.delete(profile.id),
       await this.favoriteService.deleteFavoriteList(profile.favoriteId),
+      this.chatService.deleteUserJoinedRooms(user),
+      this.chatService.deleteUserMessages(user),
+      await this.userRepository.delete(user.id),
     ]);
   }
 

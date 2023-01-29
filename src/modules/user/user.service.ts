@@ -35,4 +35,29 @@ export class UserService {
     const profile = await this.profileService.get(user.profileId);
     return { ...user, ...profile };
   }
+
+  async findUser({
+    nickname,
+    clientId,
+  }: {
+    nickname?: string;
+    clientId?: string;
+  }): Promise<User> {
+    let user: User;
+
+    if (nickname)
+      user = await this.userRepository.findOne({
+        where: {
+          username: nickname,
+        },
+      });
+    else
+      await this.userRepository.findOne({
+        where: {
+          clientId,
+        },
+      });
+
+    return user;
+  }
 }

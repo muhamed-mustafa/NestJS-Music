@@ -14,6 +14,7 @@ import { TypeOrmExModule } from '../../common/modules/typeorm-module';
 import { UserRepository } from '../user/repositories/user.repository';
 import { PlaylistModule } from '../playlist/playlist.module';
 import { FavoriteModule } from '../favorite/favorite.module';
+import { ChatModule } from '../../shared/modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { FavoriteModule } from '../favorite/favorite.module';
     ProfileModule,
     PlaylistModule,
     FavoriteModule,
+    ChatModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

@@ -11,6 +11,8 @@ import {
 } from 'typeorm';
 import { Profile } from 'src/modules/profile/entities/profile.entity';
 import { Playlist } from 'src/modules/playlist/entities/playlist.entity';
+import { UserJoinedRoom } from '../../../shared/modules/chat/entities/user-joined-room.entity';
+import { Message } from '../../../shared/modules/chat/entities/message.entity';
 
 @Entity('users')
 @Unique(['email', 'username'])
@@ -54,4 +56,17 @@ export class User extends BaseEntity {
     nullable: true,
   })
   facebookId: string;
+
+  @OneToMany(() => UserJoinedRoom, (userJoinedRoom) => userJoinedRoom.user, {
+    eager: true,
+  })
+  userJoinedRooms: UserJoinedRoom[];
+
+  @OneToMany(() => Message, (message) => message.user, {
+    eager: true,
+  })
+  messages: Message[];
+
+  @Column({ nullable: true })
+  clientId: string;
 }

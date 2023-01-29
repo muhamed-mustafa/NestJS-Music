@@ -21,6 +21,8 @@ import {
 } from '@crowdlinker/nestjs-mailer';
 import { UserModule } from './modules/user/user.module';
 import { APP_PIPE } from '@nestjs/core';
+import { ChatModule } from './shared/modules/chat/chat.module';
+import { ChatGateway } from './shared/modules/chat/chat.gateway';
 
 @Module({
   imports: [
@@ -49,6 +51,7 @@ import { APP_PIPE } from '@nestjs/core';
     TrackModule,
     UserModule,
     FavoriteModule,
+    ChatModule,
   ],
   providers: [
     {
