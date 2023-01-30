@@ -1,0 +1,29 @@
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { SubscribersNotifications } from './subscribers-notifications.entity';
+
+@Entity('notifications')
+export class Notification extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  title: string;
+
+  @Column()
+  body: string;
+
+  @OneToMany(
+    () => SubscribersNotifications,
+    (subscribersNotifications) => subscribersNotifications.notification,
+    {
+      eager: true,
+    },
+  )
+  subscribersNotifications: SubscribersNotifications[];
+}

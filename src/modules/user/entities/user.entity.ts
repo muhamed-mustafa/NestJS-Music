@@ -13,6 +13,7 @@ import { Profile } from 'src/modules/profile/entities/profile.entity';
 import { Playlist } from 'src/modules/playlist/entities/playlist.entity';
 import { UserJoinedRoom } from '../../../shared/modules/chat/entities/user-joined-room.entity';
 import { Message } from '../../../shared/modules/chat/entities/message.entity';
+import { Subscriber } from '../../notification/entities/subscriber.entity';
 
 @Entity('users')
 @Unique(['email', 'username'])
@@ -69,4 +70,13 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   clientId: string;
+
+  @OneToOne(() => Subscriber, (subscriber) => subscriber.user, { eager: true })
+  @JoinColumn()
+  subscriber: Subscriber;
+
+  @Column({
+    nullable: true,
+  })
+  subscriberId: number;
 }
