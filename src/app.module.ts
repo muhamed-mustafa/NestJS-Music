@@ -22,7 +22,6 @@ import {
 import { UserModule } from './modules/user/user.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ChatModule } from './shared/modules/chat/chat.module';
-import { ChatGateway } from './shared/modules/chat/chat.gateway';
 
 @Module({
   imports: [

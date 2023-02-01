@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { NotificationData } from '../classes/notification-data';
 import { Subscriber } from './subscriber.entity';
-import { Notification } from './notification.entity';
+import { NotificationEntity } from './notification.entity';
 
 @Entity('subscribers-notifications')
 export class SubscribersNotifications extends BaseEntity {
@@ -39,13 +39,13 @@ export class SubscribersNotifications extends BaseEntity {
   subscriber: Subscriber;
 
   @ManyToOne(
-    () => Notification,
+    () => NotificationEntity,
     (notification) => notification.subscribersNotifications,
     {
       eager: false,
     },
   )
-  notification: Notification;
+  notification: NotificationEntity;
 
   @Column()
   subscriberId: number;

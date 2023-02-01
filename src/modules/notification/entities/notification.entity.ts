@@ -8,7 +8,7 @@ import {
 import { SubscribersNotifications } from './subscribers-notifications.entity';
 
 @Entity('notifications')
-export class Notification extends BaseEntity {
+export class NotificationEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

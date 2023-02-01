@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import * as webPush from 'web-push';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -17,6 +18,12 @@ async function bootstrap(): Promise<void> {
       message:
         'Too many accounts created from this IP, please try again after an hour',
     }),
+  );
+
+  webPush.setVapidDetails(
+    'mailto:example@yourdomain.org',
+    process.env.PUBLIC_KEY,
+    process.env.PRIVATE_KEY,
   );
 
   app.useStaticAssets(join(__dirname, '..', 'files'));
