@@ -84,6 +84,73 @@ export class AuthService {
     return { token };
   }
 
+  async signInWithGoogle({
+    googleId,
+    profile,
+  }: {
+    profile: any;
+    googleId: string;
+  }): Promise<{ user: User; token: string }> {
+    const { emails } = profile;
+    const user = await this.setUserInfo({ profile, googleId });
+    const token = await this.generateJwtToken({ email: emails[0].value });
+    return { user, token };
+  }
+
+  async signInWithFacebook({
+    facebookId,
+    profile,
+  }: {
+    profile: any;
+    facebookId: string;
+  }): Promise<{ user: User; token: string }> {
+    const { emails } = profile;
+    const user = await this.setUserInfo({ profile, facebookId });
+    const token = await this.generateJwtToken({ email: emails[0].value });
+    return { user, token };
+  }
+
+  async setUserInfo({
+    googleId,
+    facebookId,
+    profile,
+  }: {
+    profile: any;
+    googleId?: string;
+    facebookId?: string;
+  }): Promise<User> {
+    const { name, displayName, emails, photos } = profile;
+
+    const existingEmail = await this.userRepository.findByEmail(
+      emails[0].value,
+    );
+    if (existingEmail)
+      throw new BadRequestException('email is exist, choose another one.');
+
+    const existingUsername = await this.userRepository.findByUsername(
+      displayName,
+    );
+    if (existingUsername)
+      throw new BadRequestException('username is exist, choose another one.');
+
+    const user = await this.userRepository.save(
+      this.userRepository.create({
+        username: displayName,
+        email: emails[0].value,
+        profile: await this.profileService.create({
+          firstName: name.givenName,
+          lastName: name.familyName,
+          image: photos[0].value,
+        } as any),
+        isVerified: true,
+        ...(googleId && { googleId }),
+        ...(facebookId && { facebookId }),
+      }),
+    );
+
+    return user;
+  }
+
   async createEmailToken(email: string): Promise<EmailVerification> {
     const verifiedEmail = await this.emailVerification.findOne({
       where: {

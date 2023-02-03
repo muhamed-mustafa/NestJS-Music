@@ -23,22 +23,34 @@ export class Profile extends BaseEntity {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   gender: Gender;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   age: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   country: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   city: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   address: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   phone: string;
 
   @Column({

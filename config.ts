@@ -34,4 +34,18 @@ export const config = {
       },
     },
   },
+
+  oAuthGoogle: {
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    CALL_BACK_URI: process.env.CALL_BACK_URI,
+    SCOPE: ['email', 'profile'],
+  },
+
+  oAuthFacebook: {
+    FACEBOOK_CLIENT_ID: 'FACEBOOK_CLIENT_ID',
+    FACEBOOK_SECRET_ID: 'FACEBOOK_SECRET_ID',
+    CALL_BACK_URI: 'CALL_BACK_URI',
+    SCOPE: ['email'],
+  },
 };

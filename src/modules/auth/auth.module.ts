@@ -15,6 +15,8 @@ import { UserRepository } from '../user/repositories/user.repository';
 import { PlaylistModule } from '../playlist/playlist.module';
 import { FavoriteModule } from '../favorite/favorite.module';
 import { ChatModule } from '../../shared/modules/chat/chat.module';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { FacebookStrategy } from './strategies/facebook.strategy';
 
 @Module({
   imports: [
@@ -34,8 +36,15 @@ import { ChatModule } from '../../shared/modules/chat/chat.module';
     FavoriteModule,
     ChatModule,
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy, FacebookStrategy],
   controllers: [AuthController],
-  exports: [AuthService, JwtStrategy, JwtModule, PassportModule],
+  exports: [
+    AuthService,
+    JwtStrategy,
+    GoogleStrategy,
+    JwtModule,
+    PassportModule,
+    FacebookStrategy,
+  ],
 })
 export class AuthModule {}
