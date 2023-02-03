@@ -43,9 +43,9 @@ export const config = {
   },
 
   oAuthFacebook: {
-    FACEBOOK_CLIENT_ID: 'FACEBOOK_CLIENT_ID',
-    FACEBOOK_SECRET_ID: 'FACEBOOK_SECRET_ID',
-    CALL_BACK_URI: 'CALL_BACK_URI',
+    FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
+    FACEBOOK_SECRET_ID: process.env.FACEBOOK_SECRET_ID,
+    CALL_BACK_URI: process.env.CALL_BACK_URI_FACEBOOK,
     SCOPE: ['email'],
   },
 };
